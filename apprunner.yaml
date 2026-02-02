@@ -1,0 +1,30 @@
+# apprunner.yaml
+Version: 1.0
+Service:
+  Name: my-nodejs-app
+  SourceConfiguration:
+    CodeRepository:
+      RepositoryUrl: https://github.com/username/my-nodejs-app
+      Branch: main
+      CodeConfiguration:
+        BuildCommand: "npm install"
+        StartCommand: "npm start"
+        Runtime: NODEJS_20
+    AutoDeploymentsEnabled: true
+  InstanceConfiguration:
+    Cpu: 1024        # 1 vCPU
+    Memory: 2048     # 2 GB
+    InstanceRoleArn: arn:aws:iam::123456789012:role/AppRunnerServiceRole
+  NetworkConfiguration:
+    EgressConfiguration:
+      EgressType: INTERNET
+  HealthCheckConfiguration:
+    Protocol: HTTP
+    Path: /
+    Interval: 10
+    Timeout: 5
+    HealthyThreshold: 2
+    UnhealthyThreshold: 5
+  Tags:
+    - Key: Environment
+      Value: Dev
